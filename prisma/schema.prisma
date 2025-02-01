@@ -7,3 +7,22 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  reactions Reaction[]
+}
+
+model Reaction {
+  id        Int      @id @default(autoincrement())
+  value     String
+  postId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  post Post @relation(fields: [postId], references: [id])
+}
